@@ -12,7 +12,7 @@ You can install ecdsa using pip as shown below:
 Command-line
 ------------
 ```
-> python python ecdsaMagic.py -h
+> python ecdsaMagic.py -h
 usage: ecdsaMagic.py [-h] [-v] -m <msg_1> <msg_2> -s <sig_1> <sig_2>
                      [-o [output]] [-f {pem,der,str,raw}]
 
@@ -37,7 +37,7 @@ sig2: WG05dVkyVWdkSGR2Y3lCV1lXeDFaU0JwT2tjd05XUldhM2xXVjJSclUwZFNNbGt6
 ```
 > python ecdsaMagic.py -m VGhpcyBpcyBOb25jZSBvbmVzIFZhbHVl Tm9uY2UgdHdvcyBWYWx1ZSBpcyB0aGlz -s WG05dVkyVWdkSGR2Y3lCV1lXeDFaU0JwVkcwNWRWa3lWV2RrU0dSMlkzbENWMWxY WG05dVkyVWdkSGR2Y3lCV1lXeDFaU0JwT2tjd05XUldhM2xXVjJSclUwZFNNbGt6
 
-Primare Key:
+Private Key:
 -----BEGIN EC PRIVATE KEY-----
 MF8CAQEEGKyazj7qlGXIch9LnKILzbJJ1/hJ6EZyjaAKBggqhkjOPQMBAaE0AzIA
 BDoGv/iV//ZB8gnVjIsfCL+p4hmdvDyKj9hjx7lXSRJTVatlh1ZgpbQ+92hz/YdI
