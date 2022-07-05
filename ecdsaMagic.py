@@ -1,7 +1,19 @@
-import binascii, base64, hashlib, argparse, sys, ecdsa
+"""
+ecdsaMagic v1.0
+Author: Oliver Simonnet (@AppSecOllie)
+"""
+
 from ecdsa.numbertheory import inverse_mod
 
-# defines a signature object for sig verification 
+import ecdsa
+import binascii
+import base64
+import hashlib
+import argparse
+import sys
+
+
+# defines a stub signature object for sig verification 
 class Sig(object):
     def __init__(self, s, r):
         self.s = s 
@@ -41,7 +53,6 @@ def getKey(r, s1 ,s2, m1, m2, n, curve):
 
     return (None, None)
     
-
 # Format Key
 def formatKey(key, frmt):
     if frmt == "pem": return key.to_pem(format="pkcs8").decode("utf-8")
