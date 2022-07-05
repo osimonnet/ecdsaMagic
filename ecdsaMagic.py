@@ -94,45 +94,45 @@ def main():
     args = parser.parse_args()
 
     # Check or argument errors
-    error = None #checkErrors(parser)
+    error = checkErrors(parser)
     if error != None:
         parser.print_usage()
         print(error); exit(1)
 
     # Try to parse argument string values to valid numerical values
-    #try:
+    try:
 
-    r_raw  = args.s[0].split("|")[0]
-    s1_raw = args.s[0].split("|")[1]
-    s2_raw = args.s[1].split("|")[1]
+        r_raw  = args.s[0].split("|")[0]
+        s1_raw = args.s[0].split("|")[1]
+        s2_raw = args.s[1].split("|")[1]
 
-    m1 = getMsgValue(args.m[0], args.mf)
-    m2 = getMsgValue(args.m[1], args.mf)
-    r  = getSigValue(r_raw)
-    s1 = getSigValue(s1_raw)
-    s2 = getSigValue(s2_raw)
+        m1 = getMsgValue(args.m[0], args.mf)
+        m2 = getMsgValue(args.m[1], args.mf)
+        r  = getSigValue(r_raw)
+        s1 = getSigValue(s1_raw)
+        s2 = getSigValue(s2_raw)
 
-    print()
-    print("m1 ", (m1))
-    print("m2 ", (m2))
-    print(" r ", (r))
-    print("s1 ", (s1))
-    print("s2 ", (s2))
-    print()
+        print()
+        print("m1 ", (m1))
+        print("m2 ", (m2))
+        print(" r ", (r))
+        print("s1 ", (s1))
+        print("s2 ", (s2))
+        print()
 
-    curve  = getCurve(r_raw)
-    n      = curve.order
-    d, k   = getKey(r, s1 ,s2, m1, m2, n, curve)
+        curve  = getCurve(r_raw)
+        n      = curve.order
+        d, k   = getKey(r, s1 ,s2, m1, m2, n, curve)
 
-    if d is None: fail()
+        if d is None: fail()
 
-    if args.f == "raw": key = d
-    else: key = formatKey(ecdsa.SigningKey.from_secret_exponent(d, curve), args.f)
+        if args.f == "raw": key = d
+        else: key = formatKey(ecdsa.SigningKey.from_secret_exponent(d, curve), args.f)
 
     # Mathematical error thrown
-    #except Exception as e:
-    #    print(e)
-    #    fail()
+    except Exception as e:
+        print(e)
+        fail()
 
     # If output name provided, save to file.  
     if args.o != None:
