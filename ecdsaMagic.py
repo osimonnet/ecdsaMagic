@@ -73,9 +73,9 @@ def setOutName(outName, frmt):
 
 # Create key file
 def createFile(outName, key):
-    f = open(outName, 'wb')
+    f = open(outName, 'w')
     f.write(key); f.close()
-    print("\nFile: " + outName + "\n" + key)
+    print("\nFile: " + outName)
 
 # Argument error handeling
 def checkErrors(parser):
@@ -150,9 +150,7 @@ def main():
         outName = setOutName(args.o, args.f)
         createFile(outName, key)
     
-    # If not, print to screen
-    else:
-        print(key)
+    print(key)
 
     exit(0)
 
