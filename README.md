@@ -32,33 +32,33 @@ Calculate private key example:
 ------------
 Given the following two Message & Signature pairs:  
 ```
-file1: /media/test/out_usb/data/log01.txt
+file1: /media/test/usb/data/image.png
  msg1: 32b4b85c411e2961dfe7a9c784754b6d68ce25b28443a388258bcefb7596547c  
- sig1: 3045022029aa00ee6fd4630fc9c99dc934eb89a...cddf069b3b5af68bdcf3389f18afeb9398be566297f25d4  
+ sig1: 3045022029aa00ee6fd4630fc9c99dc934eb89a...3389f18afeb9398be566297f25d4  
 
-file2: /media/test/out_usb/data/notes.txt
+file2: /media/test/usb/data/notes.txt
  msg2: fa2f36aed4aacdc1dd0bd00d0946fdc1c995983777f4ee154627678c59830f15  
- sig2: 3045022029aa00ee6fd4630fc9c99dc934eb89a...27d2c53193c73c66eb9b3afa61f8e9bb66639b3f8df2240  
+ sig2: 3045022029aa00ee6fd4630fc9c99dc934eb89a...b3afa61f8e9bb66639b3f8df2240  
 ```
 
 The messages can be passed as hashes directly, or generated on the fly as follows:
 ```
-$ export m1=$(cat /media/test/out_usb/data/log01.txt | sha256sum | cut -d " " -f 1)
-$ export m2=$(cat /media/test/out_usb/data/notes.txt | sha256sum | cut -d " " -f 1)
+$ export m1=$(cat /media/test/usb/data/image.png | sha256sum | cut -d " " -f 1)
+$ export m2=$(cat /media/test/usb/data/notes.txt | sha256sum | cut -d " " -f 1)
 ```
 
 With the hashes ready, we now want the signatures. In this case they are in DER format: 
 ```
-$ export sig1_asn1=3045022029aa00ee6fd4630fc9c99dc934eb89a...cddf069b3b5af68bdcf3389f18afeb9398be566297f25d4
-$ export sig2_asn1=3045022029aa00ee6fd4630fc9c99dc934eb89a...27d2c53193c73c66eb9b3afa61f8e9bb66639b3f8df2240
+$ export sig1_asn1=3045022029aa00ee6fd4630fc9c99dc934eb89a...18afeb9398be566297f25d4
+$ export sig2_asn1=3045022029aa00ee6fd4630fc9c99dc934eb89a...61f8e9bb66639b3f8df2240
 ```
 
 The individual r, and s values can be extracted from the DER encoded signature using `openssl asn1parse`: 
 ```
 $ openssl asn1parse -inform DER -in <(echo -n $sig1_asn1 | xxd -r -p)
     0:d=0  hl=2 l=  69 cons: SEQUENCE          
-    2:d=1  hl=2 l=  32 prim: INTEGER           :29AA00EE6FD4630FC9C99DC934EB89AEE0C600BE9B29F96510F6F4BA7F1BF6F3
-   36:d=1  hl=2 l=  33 prim: INTEGER           :B42777F7A1B5F8743CDDF069B3B5AF68BDCF3389F18AFEB9398BE566297F25D4
+    2:d=1  hl=2 l=  32 prim: INTEGER           :29AA00EE6FD4630FC9C99DC9...510F6F4BA7F1BF6F3
+   36:d=1  hl=2 l=  33 prim: INTEGER           :B42777F7A1B5F8743CDDF069...9398BE566297F25D4
 ```
 
 The scripts expects this to be passed as a pipe-delimited r,s value string. So we can use a one-liner to achieve this using the openssl output: 
@@ -77,16 +77,16 @@ With all the values required at hand and in the right format, we can pass them t
 ```
 $ python ecdsaMagic.py --mf hash -m "$m1" "$m2" -s "$sig1_raw" "$sig2_raw"
 
-m1  22934947309324038181051892812059903264392304809084585062070864285728580719740
-m2  113161631365591098348097319302622770123143802096590744536062062720717796085525
- r  18845197221170589343906318257608747345355704040405879359276255241170402932467
-s1  81486047764466539049478553884712308302907775462048262150788830926374891890132
-s2  94219703986050012650860055723233394466575077988534901308904824552187089592896
+m1  22934947309324038181051892...9084585062070864285728580719740
+m2  11316163136559109834809731...96590744536062062720717796085525
+ r  18845197221170589343906318...0405879359276255241170402932467
+s1  81486047764466539049478553...2048262150788830926374891890132
+s2  94219703986050012650860055...8534901308904824552187089592896
 
 -----BEGIN PRIVATE KEY-----
-MIGEAgEBMBAGByqGSM49AgEGBSuBBAAKBG0wawIBAQQg3uzn4u5dvPS//24TfipY
-82O26PkhocPxfeQKWh0HNPuhRANCAASDPma8sE7FiFJnlG60bof6ptho5y3i2wJK
-61RZoj57ATcppjQ0bT220DVJDDJxRXSgqn2zEz1KCroQtD+LWZc3
+MIGEAgEBMBAG...EGBSuBBAAKBG0wawI...zn4u5dvPS//24TfipY
+82O26PkhocPx...uhRANCAASDPma8sE7...60bof6ptho5y3i2wJK
+61RZoj57ATcp...VJDDJxRXSgqn2zEz1...+LWZc3
 -----END PRIVATE KEY-----
 ```
 
